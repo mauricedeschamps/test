@@ -91,6 +91,24 @@
             { name: "Cow", sound: "https://assets.mixkit.co/sfx/preview/mixkit-cow-moo-1744.mp3", img: "https://cdn-icons-png.flaticon.com/512/3069/3069172.png" },
             { name: "Lion", sound: "https://assets.mixkit.co/sfx/preview/mixkit-lion-roar-177.mp3", img: "https://cdn-icons-png.flaticon.com/512/616/616451.png" }
         ];
+//add
+
+// 動物データに日本語プロパティを追加
+const animals = [
+    { name: "Dog", jpName: "いぬ", sound: "...", img: "..." },
+    // ...
+];
+
+// カード生成部分を変更
+card.innerHTML = `
+    <img src="${animal.img}" alt="${animal.name}" class="animal-img">
+    <div class="animal-name">${animal.name}</div>
+    <div style="color:#666;font-size:0.9rem;">${animal.jpName}</div>
+`;
+
+//addfin
+
+
 
         // 動物カードを生成
         const container = document.getElementById('animalContainer');
