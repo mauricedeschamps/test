@@ -130,28 +130,6 @@
         `;
         document.head.appendChild(style);
 
-// 動物データに日本語プロパティを追加
-const animals = [
-    { name: "Dog", jpName: "いぬ", sound: "...", img: "..." },
-    // ...
-];
-
-// カード生成部分を変更
-card.innerHTML = `
-    <img src="${animal.img}" alt="${animal.name}" class="animal-img">
-    <div class="animal-name">${animal.name}</div>
-    <div style="color:#666;font-size:0.9rem;">${animal.jpName}</div>
-`;
-
-let tapCount = 0;
-
-card.addEventListener('click', () => {
-    tapCount++;
-    if(tapCount % 5 === 0) {
-        // 5回タップごとに褒め言葉
-        alert("すごいね！");
-    }
-});
 
 
     </script>
