@@ -265,53 +265,79 @@
     <script>
         // カテゴリデータ
         const categories = [
-            {
-                id: "animals",
-                name: "どうぶつ",
-                nameEn: "Animals",
-                icon: "https://cdn-icons-png.flaticon.com/512/616/616408.png",
-                words: [
-                    { text: "Dog", image: "https://cdn-icons-png.flaticon.com/512/616/616408.png", sentences: ["I am a dog.", "It's a dog.", "I like dogs."] },
-                    { text: "Cat", image: "https://cdn-icons-png.flaticon.com/512/616/616430.png", sentences: ["I am a cat.", "It's a cat.", "I like cats."] },
-                    { text: "Lion", image: "https://cdn-icons-png.flaticon.com/512/616/616451.png", sentences: ["I am a lion.", "It's a lion.", "I like lions."] },
-                    { text: "Bird", image: "https://cdn-icons-png.flaticon.com/512/616/616443.png", sentences: ["I am a bird.", "It's a bird.", "I like birds."] }
-                    // 他の動物...
-                ]
-            },
-            {
-                id: "fruits",
-                name: "くだもの・やさい",
-                nameEn: "Fruits & Veggies",
-                icon: "https://cdn-icons-png.flaticon.com/512/3081/3081840.png",
-                words: [
-                    { text: "Apple", image: "https://cdn-icons-png.flaticon.com/512/3081/3081840.png", sentences: ["I am an apple.", "It's an apple.", "I like apples."] },
-                    { text: "Banana", image: "https://cdn-icons-png.flaticon.com/512/3081/3081863.png", sentences: ["I am a banana.", "It's a banana.", "I like bananas."] }
-                    // 他の果物・野菜...
-                ]
-            },
-            {
-                id: "family",
-                name: "かぞく・ひと",
-                nameEn: "Family & People",
-                icon: "https://cdn-icons-png.flaticon.com/512/4128/4128176.png",
-                words: [
-                    { text: "Mom", image: "https://cdn-icons-png.flaticon.com/512/4128/4128176.png", sentences: ["I am mom.", "It's mom.", "I like mom."] },
-                    { text: "Dad", image: "https://cdn-icons-png.flaticon.com/512/4128/4128177.png", sentences: ["I am dad.", "It's dad.", "I like dad."] }
-                    // 他の家族・人...
-                ]
-            },
-            {
-                id: "others",
-                name: "そのた",
-                nameEn: "Other Things",
-                icon: "https://cdn-icons-png.flaticon.com/512/3082/3082383.png",
-                words: [
-                    { text: "Car", image: "https://cdn-icons-png.flaticon.com/512/3082/3082383.png", sentences: ["I am a car.", "It's a car.", "I like cars."] },
-                    { text: "Ball", image: "https://cdn-icons-png.flaticon.com/512/3082/3082386.png", sentences: ["I am a ball.", "It's a ball.", "I like balls."] }
-                    // その他のアイテム...
-                ]
-            }
-        ];
+    {
+        id: "animals",
+        name: "どうぶつ",
+        nameEn: "Animals",
+        icon: "https://cdn-icons-png.flaticon.com/512/616/616408.png",
+        words: [
+            { text: "Dog", image: "https://cdn-icons-png.flaticon.com/512/616/616408.png", sentences: ["It's a dog."] },
+            { text: "Cat", image: "https://cdn-icons-png.flaticon.com/512/616/616430.png", sentences: ["It's a cat."] },
+            { text: "Lion", image: "https://cdn-icons-png.flaticon.com/512/616/616451.png", sentences: ["It's a lion."] },
+            { text: "Bird", image: "https://cdn-icons-png.flaticon.com/512/616/616443.png", sentences: ["It's a bird."] },
+            { text: "Fish", image: "https://cdn-icons-png.flaticon.com/512/3081/3069197.png", sentences: ["It's a fish."] },
+            { text: "Elephant", image: "https://cdn-icons-png.flaticon.com/512/3069/3069178.png", sentences: ["It's an elephant."] },
+            { text: "Giraffe", image: "https://cdn-icons-png.flaticon.com/512/3069/3069166.png", sentences: ["It's a giraffe."] },
+            { text: "Monkey", image: "https://cdn-icons-png.flaticon.com/512/3069/3069189.png", sentences: ["It's a monkey."] },
+            { text: "Rabbit", image: "https://cdn-icons-png.flaticon.com/512/3069/3069159.png", sentences: ["It's a rabbit."] },
+            { text: "Bear", image: "https://cdn-icons-png.flaticon.com/512/3069/3069160.png", sentences: ["It's a bear."] }
+        ]
+    },
+    {
+        id: "fruits",
+        name: "くだもの・やさい",
+        nameEn: "Fruits & Veggies",
+        icon: "https://cdn-icons-png.flaticon.com/512/3081/3081840.png",
+        words: [
+            { text: "Apple", image: "https://cdn-icons-png.flaticon.com/512/3081/3081840.png", sentences: ["It's an apple."] },
+            { text: "Banana", image: "https://cdn-icons-png.flaticon.com/512/3081/3081863.png", sentences: ["It's a banana."] },
+            { text: "Orange", image: "https://cdn-icons-png.flaticon.com/512/3081/3081857.png", sentences: ["It's an orange."] },
+            { text: "Grape", image: "https://cdn-icons-png.flaticon.com/512/3081/3081872.png", sentences: ["It's a grape."] },
+            { text: "Strawberry", image: "https://cdn-icons-png.flaticon.com/512/3081/3081897.png", sentences: ["It's a strawberry."] },
+            { text: "Carrot", image: "https://cdn-icons-png.flaticon.com/512/3081/3081919.png", sentences: ["It's a carrot."] },
+            { text: "Tomato", image: "https://cdn-icons-png.flaticon.com/512/3081/3081909.png", sentences: ["It's a tomato."] },
+            { text: "Onion", image: "https://cdn-icons-png.flaticon.com/512/3081/3081922.png", sentences: ["It's an onion."] },
+            { text: "Potato", image: "https://cdn-icons-png.flaticon.com/512/3081/3081923.png", sentences: ["It's a potato."] },
+            { text: "Lettuce", image: "https://cdn-icons-png.flaticon.com/512/3081/3081920.png", sentences: ["It's lettuce."] }
+        ]
+    },
+    {
+        id: "family",
+        name: "かぞく・ひと",
+        nameEn: "Family & People",
+        icon: "https://cdn-icons-png.flaticon.com/512/4128/4128176.png",
+        words: [
+            { text: "Mom", image: "https://cdn-icons-png.flaticon.com/512/4128/4128176.png", isPerson: true, sentences: ["I am mom.", "It's mom.", "I like mom."] },
+            { text: "Dad", image: "https://cdn-icons-png.flaticon.com/512/4128/4128177.png", isPerson: true, sentences: ["I am dad.", "It's dad.", "I like dad."] },
+            { text: "Baby", image: "https://cdn-icons-png.flaticon.com/512/4128/4128180.png", isPerson: true, sentences: ["I am a baby.", "It's a baby.", "I like babies."] },
+            { text: "Grandma", image: "https://cdn-icons-png.flaticon.com/512/4128/4128213.png", isPerson: true, sentences: ["I am grandma.", "It's grandma.", "I like grandma."] },
+            { text: "Grandpa", image: "https://cdn-icons-png.flaticon.com/512/4128/4128214.png", isPerson: true, sentences: ["I am grandpa.", "It's grandpa.", "I like grandpa."] },
+            { text: "Teacher", image: "https://cdn-icons-png.flaticon.com/512/4128/4128218.png", isPerson: true, sentences: ["I am a teacher.", "It's a teacher.", "I like my teacher."] },
+            { text: "Doctor", image: "https://cdn-icons-png.flaticon.com/512/4128/4128221.png", isPerson: true, sentences: ["I am a doctor.", "It's a doctor.", "I like doctors."] },
+            { text: "Friend", image: "https://cdn-icons-png.flaticon.com/512/4128/4128205.png", isPerson: true, sentences: ["I am your friend.", "It's my friend.", "I like friends."] },
+            { text: "Boy", image: "https://cdn-icons-png.flaticon.com/512/4128/4128198.png", isPerson: true, sentences: ["I am a boy.", "It's a boy.", "I like boys."] },
+            { text: "Girl", image: "https://cdn-icons-png.flaticon.com/512/4128/4128199.png", isPerson: true, sentences: ["I am a girl.", "It's a girl.", "I like girls."] }
+        ]
+    },
+    {
+        id: "others",
+        name: "そのた",
+        nameEn: "Other Things",
+        icon: "https://cdn-icons-png.flaticon.com/512/3082/3082383.png",
+        words: [
+            { text: "Car", image: "https://cdn-icons-png.flaticon.com/512/3082/3082383.png", sentences: ["It's a car."] },
+            { text: "Ball", image: "https://cdn-icons-png.flaticon.com/512/3082/3082386.png", sentences: ["It's a ball."] },
+            { text: "Book", image: "https://cdn-icons-png.flaticon.com/512/3082/3082393.png", sentences: ["It's a book."] },
+            { text: "House", image: "https://cdn-icons-png.flaticon.com/512/3082/3082409.png", sentences: ["It's a house."] },
+            { text: "Tree", image: "https://cdn-icons-png.flaticon.com/512/3082/3082415.png", sentences: ["It's a tree."] },
+            { text: "Flower", image: "https://cdn-icons-png.flaticon.com/512/3082/3082416.png", sentences: ["It's a flower."] },
+            { text: "Bicycle", image: "https://cdn-icons-png.flaticon.com/512/3082/3082424.png", sentences: ["It's a bicycle."] },
+            { text: "Clock", image: "https://cdn-icons-png.flaticon.com/512/3082/3082432.png", sentences: ["It's a clock."] },
+            { text: "Chair", image: "https://cdn-icons-png.flaticon.com/512/3082/3082438.png", sentences: ["It's a chair."] },
+            { text: "Bed", image: "https://cdn-icons-png.flaticon.com/512/3082/3082440.png", sentences: ["It's a bed."] }
+        ]
+    }
+];
 
         // 現在の単語と文章インデックス
         let currentWord = null;
