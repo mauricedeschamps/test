@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Animal Sounds for Kids</title>
+    <title>こども英語カード100</title>
     <style>
         * {
             margin: 0;
@@ -12,123 +12,353 @@
             -webkit-tap-highlight-color: transparent;
         }
         body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            background: #FFF8F0;
+            font-family: 'Comic Sans MS', 'YuGothic', sans-serif;
+            background: #FFF9F0;
             height: 100vh;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
         header {
-            background: #FF9E7D;
+            background: #FF9966;
             color: white;
-            padding: 15px 0;
+            padding: 12px 0;
             text-align: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        .container {
+        .main-title {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+        .category-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            flex: 1;
+            gap: 8px;
+            padding: 10px;
+        }
+        .category-box {
+            background: white;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .category-box:active {
+            transform: scale(0.98);
+        }
+        .category-icon {
+            width: 60%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .category-name {
+            font-size: 1.2rem;
+            color: #FF6B6B;
+            font-weight: bold;
+            text-align: center;
+        }
+        .category-name-en {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 3px;
+        }
+        footer {
+            background: #FF9966;
+            color: white;
+            text-align: center;
+            padding: 8px 0;
+            font-size: 0.8rem;
+        }
+        
+        /* 単語画面スタイル */
+        .word-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #FFF9F0;
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            padding: 15px;
+        }
+        .word-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .back-button {
+            background: #FF9966;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+        .word-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            padding: 15px;
             flex: 1;
             overflow-y: auto;
         }
-        .animal-card {
+        .word-card {
             background: white;
-            border-radius: 20px;
+            border-radius: 12px;
             padding: 15px;
-            text-align: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-            aspect-ratio: 1/1;
             display: flex;
             flex-direction: column;
+            align-items: center;
             justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        .animal-card:active {
-            transform: scale(0.95);
+        .word-card:active {
             background: #FFF0E0;
         }
-        .animal-img {
+        .word-image {
             width: 80%;
-            margin: 0 auto 10px;
-            flex: 1;
-            object-fit: contain;
+            height: auto;
+            margin-bottom: 10px;
         }
-        .animal-name {
-            font-size: 1.1rem;
-            color: #FF6B6B;
+        .word-text {
+            font-size: 1.3rem;
             font-weight: bold;
-        }
-        .footer {
+            color: #333;
             text-align: center;
-            padding: 10px;
-            font-size: 0.8rem;
-            color: #888;
+        }
+        
+        /* 文章画面スタイル */
+        .sentence-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #E6F7FF;
+            z-index: 200;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+        .sentence-text {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .sentence-image {
+            width: 60%;
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+        .next-button {
+            background: #66AAFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+            margin-top: 15px;
         }
     </style>
 </head>
 <body>
+    <!-- メイン画面 -->
     <header>
-        🐾 どうぶつをおしてね 🐾
+        <div class="main-title">こども英語カード</div>
+        <div>タップしてね！</div>
     </header>
     
-    <div class="container" id="animalContainer">
-        <!-- ここに動物ボタンが追加されます -->
+    <div class="category-container" id="categoryContainer">
+        <!-- カテゴリボタンはJSで追加 -->
     </div>
     
-    <div class="footer">
-        ママと一緒にたのしんでね！
+    <footer>
+        ママと一緒に楽しく学ぼう！
+    </footer>
+    
+    <!-- 単語画面 -->
+    <div class="word-screen" id="wordScreen">
+        <div class="word-header">
+            <button class="back-button" onclick="closeWordScreen()">← もどる</button>
+            <div id="currentCategoryName"></div>
+        </div>
+        <div class="word-container" id="wordContainer">
+            <!-- 単語カードはJSで追加 -->
+        </div>
+    </div>
+    
+    <!-- 文章画面 -->
+    <div class="sentence-screen" id="sentenceScreen">
+        <img class="sentence-image" id="sentenceImage" src="">
+        <div class="sentence-text" id="sentenceText"></div>
+        <button class="next-button" onclick="showNextSentence()">つぎへ</button>
     </div>
 
     <script>
-        // 動物データ
-        const animals = [
-            { name: "Dog", sound: "https://assets.mixkit.co/sfx/preview/mixkit-dog-barking-276.mp3", img: "https://cdn-icons-png.flaticon.com/512/616/616408.png" },
-            { name: "Cat", sound: "https://assets.mixkit.co/sfx/preview/mixkit-cat-meow-119.mp3", img: "https://cdn-icons-png.flaticon.com/512/616/616430.png" },
-            { name: "Cow", sound: "https://assets.mixkit.co/sfx/preview/mixkit-cow-moo-1744.mp3", img: "https://cdn-icons-png.flaticon.com/512/3069/3069172.png" },
-            { name: "Lion", sound: "https://assets.mixkit.co/sfx/preview/mixkit-lion-roar-177.mp3", img: "https://cdn-icons-png.flaticon.com/512/616/616451.png" }
+        // カテゴリデータ
+        const categories = [
+            {
+                id: "animals",
+                name: "どうぶつ",
+                nameEn: "Animals",
+                icon: "https://cdn-icons-png.flaticon.com/512/616/616408.png",
+                words: [
+                    { text: "Dog", image: "https://cdn-icons-png.flaticon.com/512/616/616408.png", sentences: ["I am a dog.", "It's a dog.", "I like dogs."] },
+                    { text: "Cat", image: "https://cdn-icons-png.flaticon.com/512/616/616430.png", sentences: ["I am a cat.", "It's a cat.", "I like cats."] },
+                    { text: "Lion", image: "https://cdn-icons-png.flaticon.com/512/616/616451.png", sentences: ["I am a lion.", "It's a lion.", "I like lions."] },
+                    { text: "Bird", image: "https://cdn-icons-png.flaticon.com/512/616/616443.png", sentences: ["I am a bird.", "It's a bird.", "I like birds."] }
+                    // 他の動物...
+                ]
+            },
+            {
+                id: "fruits",
+                name: "くだもの・やさい",
+                nameEn: "Fruits & Veggies",
+                icon: "https://cdn-icons-png.flaticon.com/512/3081/3081840.png",
+                words: [
+                    { text: "Apple", image: "https://cdn-icons-png.flaticon.com/512/3081/3081840.png", sentences: ["I am an apple.", "It's an apple.", "I like apples."] },
+                    { text: "Banana", image: "https://cdn-icons-png.flaticon.com/512/3081/3081863.png", sentences: ["I am a banana.", "It's a banana.", "I like bananas."] }
+                    // 他の果物・野菜...
+                ]
+            },
+            {
+                id: "family",
+                name: "かぞく・ひと",
+                nameEn: "Family & People",
+                icon: "https://cdn-icons-png.flaticon.com/512/4128/4128176.png",
+                words: [
+                    { text: "Mom", image: "https://cdn-icons-png.flaticon.com/512/4128/4128176.png", sentences: ["I am mom.", "It's mom.", "I like mom."] },
+                    { text: "Dad", image: "https://cdn-icons-png.flaticon.com/512/4128/4128177.png", sentences: ["I am dad.", "It's dad.", "I like dad."] }
+                    // 他の家族・人...
+                ]
+            },
+            {
+                id: "others",
+                name: "そのた",
+                nameEn: "Other Things",
+                icon: "https://cdn-icons-png.flaticon.com/512/3082/3082383.png",
+                words: [
+                    { text: "Car", image: "https://cdn-icons-png.flaticon.com/512/3082/3082383.png", sentences: ["I am a car.", "It's a car.", "I like cars."] },
+                    { text: "Ball", image: "https://cdn-icons-png.flaticon.com/512/3082/3082386.png", sentences: ["I am a ball.", "It's a ball.", "I like balls."] }
+                    // その他のアイテム...
+                ]
+            }
         ];
 
-        // 動物カードを生成
-        const container = document.getElementById('animalContainer');
-        
-        animals.forEach(animal => {
-            const card = document.createElement('div');
-            card.className = 'animal-card';
-            card.innerHTML = `
-                <img src="${animal.img}" alt="${animal.name}" class="animal-img">
-                <div class="animal-name">${animal.name}</div>
-            `;
-            
-            card.addEventListener('click', () => {
-                playSound(animal.sound);
-                card.style.animation = 'bounce 0.3s';
-                setTimeout(() => {
-                    card.style.animation = '';
-                }, 300);
-            });
-            
-            container.appendChild(card);
-        });
+        // 現在の単語と文章インデックス
+        let currentWord = null;
+        let currentSentenceIndex = 0;
 
-        // 音声再生関数
-        function playSound(soundUrl) {
-            const audio = new Audio(soundUrl);
-            audio.play().catch(e => console.log("音声再生エラー:", e));
+        // 初期化 - カテゴリボタンを生成
+        function initCategories() {
+            const container = document.getElementById('categoryContainer');
+            
+            categories.forEach(category => {
+                const box = document.createElement('div');
+                box.className = 'category-box';
+                box.innerHTML = `
+                    <img src="${category.icon}" alt="${category.name}" class="category-icon">
+                    <div class="category-name">${category.name}</div>
+                    <div class="category-name-en">${category.nameEn}</div>
+                `;
+                
+                box.addEventListener('click', () => {
+                    openWordScreen(category);
+                });
+                
+                container.appendChild(box);
+            });
         }
 
-        // スタイルにアニメーション追加
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes bounce {
-                0%, 100% { transform: scale(1); }
-                50% { transform: scale(0.9); }
+        // 単語画面を開く
+        function openWordScreen(category) {
+            document.getElementById('currentCategoryName').textContent = category.name;
+            const wordContainer = document.getElementById('wordContainer');
+            wordContainer.innerHTML = '';
+            
+            category.words.forEach(word => {
+                const card = document.createElement('div');
+                card.className = 'word-card';
+                card.innerHTML = `
+                    <img src="${word.image}" alt="${word.text}" class="word-image">
+                    <div class="word-text">${word.text}</div>
+                `;
+                
+                card.addEventListener('click', () => {
+                    showSentences(word);
+                });
+                
+                wordContainer.appendChild(card);
+            });
+            
+            document.getElementById('wordScreen').style.display = 'flex';
+        }
+
+        // 単語画面を閉じる
+        function closeWordScreen() {
+            document.getElementById('wordScreen').style.display = 'none';
+        }
+
+        // 文章画面を表示
+        function showSentences(word) {
+            currentWord = word;
+            currentSentenceIndex = 0;
+            
+            document.getElementById('sentenceImage').src = word.image;
+            document.getElementById('sentenceText').textContent = word.sentences[0];
+            document.getElementById('sentenceScreen').style.display = 'flex';
+            
+            // 音声再生（実際のアプリでは音声ファイルを用意）
+            speak(word.sentences[0]);
+        }
+
+        // 次の文章を表示
+        function showNextSentence() {
+            if (!currentWord) return;
+            
+            currentSentenceIndex++;
+            if (currentSentenceIndex >= currentWord.sentences.length) {
+                closeSentenceScreen();
+                return;
             }
-        `;
-        document.head.appendChild(style);
+            
+            document.getElementById('sentenceText').textContent = 
+                currentWord.sentences[currentSentenceIndex];
+            
+            // 音声再生
+            speak(currentWord.sentences[currentSentenceIndex]);
+        }
+
+        // 文章画面を閉じる
+        function closeSentenceScreen() {
+            document.getElementById('sentenceScreen').style.display = 'none';
+        }
+
+        // 音声合成（簡易版）
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // 初期化
+        window.onload = function() {
+            initCategories();
+        };
     </script>
 </body>
 </html>
