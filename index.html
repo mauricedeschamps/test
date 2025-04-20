@@ -27,10 +27,28 @@
             font-size: 1.1rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+        
+        <!-- オプション設定ボタン -->
+<button id="settingsBtn" class="settings-btn">⚙️</button>
+
+<!-- オプションメニュー（最初は非表示） -->
+<div id="settingsMenu" class="settings-menu" style="display:none;">
+    <h3>設定</h3>
+    <div class="speed-control">
+        <label>音声の速さ:</label>
+        <button onclick="setSpeed(0.7)">ゆっくり</button>
+        <button onclick="setSpeed(1.0)">普通</button>
+        <button onclick="setSpeed(1.3)">速く</button>
+    </div>
+</div>
+        
         .main-title {
             font-size: 1.3rem;
             margin-bottom: 5px;
         }
+        
+        
+        
         .category-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -171,6 +189,44 @@
             font-size: 1rem;
             margin-top: 15px;
         }
+        
+        /* 設定ボタン */
+.settings-btn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+/* 設定メニュー */
+.settings-menu {
+    position: fixed;
+    top: 50px;
+    right: 10px;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.speed-control {
+    margin-top: 10px;
+}
+
+.speed-control button {
+    margin: 5px;
+    padding: 5px 10px;
+    background: #FF9966;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+        
     </style>
 </head>
 <body>
@@ -354,11 +410,77 @@
                 window.speechSynthesis.speak(utterance);
             }
         }
+        
+        // 音声再生関数（スロー再生対応）
+function speak(text) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.8; // 再生速度を0.8倍に
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
+// 文章表示ロジック改良版
+function showSentences(word) {
+    currentWord = word;
+    currentSentenceIndex = 0;
+    
+    // 人物か物かを自動判定（単語リストで明示的に指定しても可）
+    const isPerson = ['Mom', 'Dad', 'Baby', 'Teacher', 'Doctor', 'Friend']
+        .some(personWord => word.text.includes(personWord));
+    
+    // 物の場合は最初からIt's ~のみ
+    if (!isPerson) {
+        document.getElementById('sentenceText').textContent = `It's ${word.text}.`;
+        speak(`It's ${word.text}.`);
+        return;
+    }
+    
+    // 人物の場合は従来通り3文章
+    document.getElementById('sentenceText').textContent = word.sentences[0];
+    speak(word.sentences[0]);
+}
 
         // 初期化
         window.onload = function() {
             initCategories();
         };
+        
+        // 音声速度のデフォルト値
+let speechSpeed = 1.0;
+
+// 設定メニューの表示/非表示
+document.getElementById('settingsBtn').addEventListener('click', function() {
+    const menu = document.getElementById('settingsMenu');
+    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+});
+
+// 速度変更関数
+function setSpeed(speed) {
+    speechSpeed = speed;
+    localStorage.setItem('speechSpeed', speed); // 設定を保存
+    alert(`音声速度を ${speed}x に設定しました`);
+}
+
+// 音声再生関数（改良版）
+function speak(text) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = localStorage.getItem('speechSpeed') || speechSpeed;
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
+// ページ読み込み時に設定を読み込み
+window.addEventListener('load', function() {
+    const savedSpeed = localStorage.getItem('speechSpeed');
+    if (savedSpeed) {
+        speechSpeed = parseFloat(savedSpeed);
+    }
+});
+        
     </script>
 </body>
 </html>
