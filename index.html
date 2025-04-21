@@ -442,16 +442,6 @@
             document.getElementById('sentenceScreen').style.display = 'none';
         }
 
-        // 音声合成（簡易版）
-        function speak(text) {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'en-US';
-                window.speechSynthesis.speak(utterance);
-            }
-        }
-        
-        // 音声再生関数（スロー再生対応）
 function speak(text) {
     if ('speechSynthesis' in window) {
         const utterance = new SpeechSynthesisUtterance(text);
