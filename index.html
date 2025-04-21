@@ -442,6 +442,16 @@
             document.getElementById('sentenceScreen').style.display = 'none';
         }
 
+        // 音声合成（簡易版）
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+        
+        // 音声再生関数（スロー再生対応）
 function speak(text) {
     if ('speechSynthesis' in window) {
         const utterance = new SpeechSynthesisUtterance(text);
@@ -457,11 +467,9 @@ function showSentences(word) {
     currentSentenceIndex = 0;
     
     // 人物か物かを自動判定（単語リストで明示的に指定しても可）
-
-const isPerson = word.hasOwnProperty('isPerson') ? word.isPerson : 
-               ['Mom','Dad',...].some(...);
+    const isPerson = ['Mom', 'Dad', 'Baby', 'Teacher', 'Doctor', 'Friend']
+        .some(personWord => word.text.includes(personWord));
     
-
     // 物の場合は最初からIt's ~のみ
     if (!isPerson) {
         document.getElementById('sentenceText').textContent = `It's ${word.text}.`;
