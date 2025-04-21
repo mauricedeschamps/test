@@ -109,13 +109,12 @@
             border-radius: 15px;
             font-size: 0.9rem;
         }
-        .word-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            flex: 1;
-            overflow-y: auto;
-        }
+        
+/* 単語画面の高さ調整 */
+.word-container {
+    max-height: calc(100vh - 120px); /* ヘッダー/フッター考慮 */
+}
+
         .word-card {
             background: white;
             border-radius: 12px;
@@ -126,6 +125,7 @@
             justify-content: center;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+
         .word-card:active {
             background: #FFF0E0;
         }
