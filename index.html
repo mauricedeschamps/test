@@ -501,7 +501,10 @@ function speak(text) {
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'en-US';
         utterance.rate = localStorage.getItem('speechSpeed') || speechSpeed;
-        window.speechSynthesis.speak(utterance);
+        
+window.speechSynthesis.cancel(); // 既存の再生を停止
+window.speechSynthesis.speak(utterance);
+
     }
 }
 
