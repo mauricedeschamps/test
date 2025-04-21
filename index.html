@@ -226,6 +226,12 @@
     max-height: 70vh; /* 画面の70%まで */
 }
 
+/* 追加スタイル */
+.word-container {
+    max-height: calc(100vh - 120px);
+    padding-bottom: 20px; /* スクロール余地確保 */
+}
+
     </style>
 </head>
 <body>
@@ -507,6 +513,30 @@ window.speechSynthesis.speak(utterance);
 
     }
 }
+
+// 重複削除後のspeak関数
+function speak(text) {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = localStorage.getItem('speechSpeed') || speechSpeed;
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
+// 改良版人物判定
+function showSentences(word) {
+    currentWord = word;
+    currentSentenceIndex = 0;
+    
+    const isPerson = word.hasOwnProperty('isPerson') ? word.isPerson : 
+                   ['Mom','Dad','Baby','Teacher','Doctor','Friend','Boy','Girl']
+                   .some(personWord => word.text.includes(personWord));
+    
+    // ...以下同じ...
+}
+
 
 // ページ読み込み時に設定を読み込み
 window.addEventListener('load', function() {
