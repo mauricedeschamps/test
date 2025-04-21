@@ -26,16 +26,12 @@
             text-align: center;
             font-size: 1.1rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
         }
-        
-        
         .main-title {
             font-size: 1.3rem;
             margin-bottom: 5px;
         }
-        
-        
-        
         .category-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -109,12 +105,15 @@
             border-radius: 15px;
             font-size: 0.9rem;
         }
-        
-/* 単語画面の高さ調整 */
-.word-container {
-    max-height: calc(100vh - 120px); /* ヘッダー/フッター考慮 */
-}
-
+        .word-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            flex: 1;
+            overflow-y: auto;
+            max-height: calc(100vh - 120px); /* 修正: 高さ調整 */
+            padding-bottom: 20px; /* 修正: スクロール余地確保 */
+        }
         .word-card {
             background: white;
             border-radius: 12px;
@@ -125,7 +124,6 @@
             justify-content: center;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-
         .word-card:active {
             background: #FFF0E0;
         }
@@ -178,82 +176,81 @@
         }
         
         /* 設定ボタン */
-.settings-btn {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    z-index: 1000;
-}
-
-/* 設定メニュー */
-.settings-menu {
-    position: fixed;
-    top: 50px;
-    right: 10px;
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-}
-
-.speed-control {
-    margin-top: 10px;
-}
-
-.speed-control button {
-    margin: 5px;
-    padding: 5px 10px;
-    background: #FF9966;
-    color: white;
-    border: none;
-    border-radius: 5px;
-}
+        .settings-btn {
+            position: absolute; /* 修正: header内に絶対配置 */
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1000;
+        }
         
-/* style.css に追加 */
-.word-card[data-category="animals"] { border-top: 5px solid #FF9966; }
-.word-card[data-category="fruits"] { border-top: 5px solid #66CC66; }
-.word-card[data-category="family"] { border-top: 5px solid #6699FF; }
-.word-card[data-category="others"] { border-top: 5px solid #CC66FF; }
+        /* 設定メニュー */
+        .settings-menu {
+            position: fixed;
+            top: 50px;
+            right: 10px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;
+        }
+        
+        .speed-control {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .speed-control button {
+            margin: 5px;
+            padding: 5px 10px;
+            background: #FF9966;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        
+        /* カテゴリ色分け */
+        .word-card[data-category="animals"] { border-top: 5px solid #FF9966; }
+        .word-card[data-category="fruits"] { border-top: 5px solid #66CC66; }
+        .word-card[data-category="family"] { border-top: 5px solid #6699FF; }
+        .word-card[data-category="others"] { border-top: 5px solid #CC66FF; }
 
-
-.word-container {
-    overflow-y: auto;
-    max-height: 70vh; /* 画面の70%まで */
-}
-
-/* 追加スタイル */
-.word-container {
-    max-height: calc(100vh - 120px);
-    padding-bottom: 20px; /* スクロール余地確保 */
-}
-
+        /* ローディング画面 */
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 <body>
+    <!-- ローディング画面 -->
+    <div id="loading">
+        読み込み中...
+    </div>
+
     <!-- メイン画面 -->
     <header>
         <div class="main-title">こども英語カード</div>
         <div>タップしてね！</div>
-
-<!-- オプション設定ボタン -->
-<button id="settingsBtn" class="settings-btn">⚙️</button>
-
-<!-- オプションメニュー（最初は非表示） -->
-<div id="settingsMenu" class="settings-menu" style="display:none;">
-    <h3>設定</h3>
-    <div class="speed-control">
-        <label>音声の速さ:</label>
-        <button onclick="setSpeed(0.7)">ゆっくり</button>
-        <button onclick="setSpeed(1.0)">普通</button>
-        <button onclick="setSpeed(1.3)">速く</button>
-    </div>
-</div>
-
+        <!-- オプション設定ボタン -->
+        <button id="settingsBtn" class="settings-btn">⚙️</button>
     </header>
     
     <div class="category-container" id="categoryContainer">
@@ -282,86 +279,98 @@
         <button class="next-button" onclick="showNextSentence()">つぎへ</button>
     </div>
 
+    <!-- 設定メニュー -->
+    <div id="settingsMenu" class="settings-menu">
+        <h3>設定</h3>
+        <div class="speed-control">
+            <label>音声の速さ:</label>
+            <button onclick="setSpeed(0.7)">ゆっくり</button>
+            <button onclick="setSpeed(1.0)">普通</button>
+            <button onclick="setSpeed(1.3)">速く</button>
+        </div>
+    </div>
+
     <script>
         // カテゴリデータ
         const categories = [
-    {
-        id: "animals",
-        name: "どうぶつ",
-        nameEn: "Animals",
-        icon: "https://cdn-icons-png.flaticon.com/512/616/616408.png",
-        words: [
-            { text: "Dog", image: "https://cdn-icons-png.flaticon.com/512/616/616408.png", sentences: ["It's a dog."] },
-            { text: "Cat", image: "https://cdn-icons-png.flaticon.com/512/616/616430.png", sentences: ["It's a cat."] },
-            { text: "Lion", image: "https://cdn-icons-png.flaticon.com/512/616/616451.png", sentences: ["It's a lion."] },
-            { text: "Bird", image: "https://cdn-icons-png.flaticon.com/512/616/616443.png", sentences: ["It's a bird."] },
-            { text: "Fish", image: "https://cdn-icons-png.flaticon.com/512/3081/3069197.png", sentences: ["It's a fish."] },
-            { text: "Elephant", image: "https://cdn-icons-png.flaticon.com/512/3069/3069178.png", sentences: ["It's an elephant."] },
-            { text: "Giraffe", image: "https://cdn-icons-png.flaticon.com/512/3069/3069166.png", sentences: ["It's a giraffe."] },
-            { text: "Monkey", image: "https://cdn-icons-png.flaticon.com/512/3069/3069189.png", sentences: ["It's a monkey."] },
-            { text: "Rabbit", image: "https://cdn-icons-png.flaticon.com/512/3069/3069159.png", sentences: ["It's a rabbit."] },
-            { text: "Bear", image: "https://cdn-icons-png.flaticon.com/512/3069/3069160.png", sentences: ["It's a bear."] }
-        ]
-    },
-    {
-        id: "fruits",
-        name: "くだもの・やさい",
-        nameEn: "Fruits & Veggies",
-        icon: "https://cdn-icons-png.flaticon.com/512/3081/3081840.png",
-        words: [
-            { text: "Apple", image: "https://cdn-icons-png.flaticon.com/512/3081/3081840.png", sentences: ["It's an apple."] },
-            { text: "Banana", image: "https://cdn-icons-png.flaticon.com/512/3081/3081863.png", sentences: ["It's a banana."] },
-            { text: "Orange", image: "https://cdn-icons-png.flaticon.com/512/3081/3081857.png", sentences: ["It's an orange."] },
-            { text: "Grape", image: "https://cdn-icons-png.flaticon.com/512/3081/3081872.png", sentences: ["It's a grape."] },
-            { text: "Strawberry", image: "https://cdn-icons-png.flaticon.com/512/3081/3081897.png", sentences: ["It's a strawberry."] },
-            { text: "Carrot", image: "https://cdn-icons-png.flaticon.com/512/3081/3081919.png", sentences: ["It's a carrot."] },
-            { text: "Tomato", image: "https://cdn-icons-png.flaticon.com/512/3081/3081909.png", sentences: ["It's a tomato."] },
-            { text: "Onion", image: "https://cdn-icons-png.flaticon.com/512/3081/3081922.png", sentences: ["It's an onion."] },
-            { text: "Potato", image: "https://cdn-icons-png.flaticon.com/512/3081/3081923.png", sentences: ["It's a potato."] },
-            { text: "Lettuce", image: "https://cdn-icons-png.flaticon.com/512/3081/3081920.png", sentences: ["It's lettuce."] }
-        ]
-    },
-    {
-        id: "family",
-        name: "かぞく・ひと",
-        nameEn: "Family & People",
-        icon: "https://cdn-icons-png.flaticon.com/512/4128/4128176.png",
-        words: [
-            { text: "Mom", image: "https://cdn-icons-png.flaticon.com/512/4128/4128176.png", isPerson: true, sentences: ["I am mom.", "It's mom.", "I like mom."] },
-            { text: "Dad", image: "https://cdn-icons-png.flaticon.com/512/4128/4128177.png", isPerson: true, sentences: ["I am dad.", "It's dad.", "I like dad."] },
-            { text: "Baby", image: "https://cdn-icons-png.flaticon.com/512/4128/4128180.png", isPerson: true, sentences: ["I am a baby.", "It's a baby.", "I like babies."] },
-            { text: "Grandma", image: "https://cdn-icons-png.flaticon.com/512/4128/4128213.png", isPerson: true, sentences: ["I am grandma.", "It's grandma.", "I like grandma."] },
-            { text: "Grandpa", image: "https://cdn-icons-png.flaticon.com/512/4128/4128214.png", isPerson: true, sentences: ["I am grandpa.", "It's grandpa.", "I like grandpa."] },
-            { text: "Teacher", image: "https://cdn-icons-png.flaticon.com/512/4128/4128218.png", isPerson: true, sentences: ["I am a teacher.", "It's a teacher.", "I like my teacher."] },
-            { text: "Doctor", image: "https://cdn-icons-png.flaticon.com/512/4128/4128221.png", isPerson: true, sentences: ["I am a doctor.", "It's a doctor.", "I like doctors."] },
-            { text: "Friend", image: "https://cdn-icons-png.flaticon.com/512/4128/4128205.png", isPerson: true, sentences: ["I am your friend.", "It's my friend.", "I like friends."] },
-            { text: "Boy", image: "https://cdn-icons-png.flaticon.com/512/4128/4128198.png", isPerson: true, sentences: ["I am a boy.", "It's a boy.", "I like boys."] },
-            { text: "Girl", image: "https://cdn-icons-png.flaticon.com/512/4128/4128199.png", isPerson: true, sentences: ["I am a girl.", "It's a girl.", "I like girls."] }
-        ]
-    },
-    {
-        id: "others",
-        name: "そのた",
-        nameEn: "Other Things",
-        icon: "https://cdn-icons-png.flaticon.com/512/3082/3082383.png",
-        words: [
-            { text: "Car", image: "https://cdn-icons-png.flaticon.com/512/3082/3082383.png", sentences: ["It's a car."] },
-            { text: "Ball", image: "https://cdn-icons-png.flaticon.com/512/3082/3082386.png", sentences: ["It's a ball."] },
-            { text: "Book", image: "https://cdn-icons-png.flaticon.com/512/3082/3082393.png", sentences: ["It's a book."] },
-            { text: "House", image: "https://cdn-icons-png.flaticon.com/512/3082/3082409.png", sentences: ["It's a house."] },
-            { text: "Tree", image: "https://cdn-icons-png.flaticon.com/512/3082/3082415.png", sentences: ["It's a tree."] },
-            { text: "Flower", image: "https://cdn-icons-png.flaticon.com/512/3082/3082416.png", sentences: ["It's a flower."] },
-            { text: "Bicycle", image: "https://cdn-icons-png.flaticon.com/512/3082/3082424.png", sentences: ["It's a bicycle."] },
-            { text: "Clock", image: "https://cdn-icons-png.flaticon.com/512/3082/3082432.png", sentences: ["It's a clock."] },
-            { text: "Chair", image: "https://cdn-icons-png.flaticon.com/512/3082/3082438.png", sentences: ["It's a chair."] },
-            { text: "Bed", image: "https://cdn-icons-png.flaticon.com/512/3082/3082440.png", sentences: ["It's a bed."] }
-        ]
-    }
-];
+            {
+                id: "animals",
+                name: "どうぶつ",
+                nameEn: "Animals",
+                icon: "https://cdn-icons-png.flaticon.com/512/616/616408.png",
+                words: [
+                    { text: "Dog", image: "https://cdn-icons-png.flaticon.com/512/616/616408.png", sentences: ["It's a dog."] },
+                    { text: "Cat", image: "https://cdn-icons-png.flaticon.com/512/616/616430.png", sentences: ["It's a cat."] },
+                    { text: "Lion", image: "https://cdn-icons-png.flaticon.com/512/616/616451.png", sentences: ["It's a lion."] },
+                    { text: "Bird", image: "https://cdn-icons-png.flaticon.com/512/616/616443.png", sentences: ["It's a bird."] },
+                    { text: "Fish", image: "https://cdn-icons-png.flaticon.com/512/3081/3069197.png", sentences: ["It's a fish."] },
+                    { text: "Elephant", image: "https://cdn-icons-png.flaticon.com/512/3069/3069178.png", sentences: ["It's an elephant."] },
+                    { text: "Giraffe", image: "https://cdn-icons-png.flaticon.com/512/3069/3069166.png", sentences: ["It's a giraffe."] },
+                    { text: "Monkey", image: "https://cdn-icons-png.flaticon.com/512/3069/3069189.png", sentences: ["It's a monkey."] },
+                    { text: "Rabbit", image: "https://cdn-icons-png.flaticon.com/512/3069/3069159.png", sentences: ["It's a rabbit."] },
+                    { text: "Bear", image: "https://cdn-icons-png.flaticon.com/512/3069/3069160.png", sentences: ["It's a bear."] }
+                ]
+            },
+            {
+                id: "fruits",
+                name: "くだもの・やさい",
+                nameEn: "Fruits & Veggies",
+                icon: "https://cdn-icons-png.flaticon.com/512/3081/3081840.png",
+                words: [
+                    { text: "Apple", image: "https://cdn-icons-png.flaticon.com/512/3081/3081840.png", sentences: ["It's an apple."] },
+                    { text: "Banana", image: "https://cdn-icons-png.flaticon.com/512/3081/3081863.png", sentences: ["It's a banana."] },
+                    { text: "Orange", image: "https://cdn-icons-png.flaticon.com/512/3081/3081857.png", sentences: ["It's an orange."] },
+                    { text: "Grape", image: "https://cdn-icons-png.flaticon.com/512/3081/3081872.png", sentences: ["It's a grape."] },
+                    { text: "Strawberry", image: "https://cdn-icons-png.flaticon.com/512/3081/3081897.png", sentences: ["It's a strawberry."] },
+                    { text: "Carrot", image: "https://cdn-icons-png.flaticon.com/512/3081/3081919.png", sentences: ["It's a carrot."] },
+                    { text: "Tomato", image: "https://cdn-icons-png.flaticon.com/512/3081/3081909.png", sentences: ["It's a tomato."] },
+                    { text: "Onion", image: "https://cdn-icons-png.flaticon.com/512/3081/3081922.png", sentences: ["It's an onion."] },
+                    { text: "Potato", image: "https://cdn-icons-png.flaticon.com/512/3081/3081923.png", sentences: ["It's a potato."] },
+                    { text: "Lettuce", image: "https://cdn-icons-png.flaticon.com/512/3081/3081920.png", sentences: ["It's lettuce."] }
+                ]
+            },
+            {
+                id: "family",
+                name: "かぞく・ひと",
+                nameEn: "Family & People",
+                icon: "https://cdn-icons-png.flaticon.com/512/4128/4128176.png",
+                words: [
+                    { text: "Mom", image: "https://cdn-icons-png.flaticon.com/512/4128/4128176.png", isPerson: true, sentences: ["I am mom.", "It's mom.", "I like mom."] },
+                    { text: "Dad", image: "https://cdn-icons-png.flaticon.com/512/4128/4128177.png", isPerson: true, sentences: ["I am dad.", "It's dad.", "I like dad."] },
+                    { text: "Baby", image: "https://cdn-icons-png.flaticon.com/512/4128/4128180.png", isPerson: true, sentences: ["I am a baby.", "It's a baby.", "I like babies."] },
+                    { text: "Grandma", image: "https://cdn-icons-png.flaticon.com/512/4128/4128213.png", isPerson: true, sentences: ["I am grandma.", "It's grandma.", "I like grandma."] },
+                    { text: "Grandpa", image: "https://cdn-icons-png.flaticon.com/512/4128/4128214.png", isPerson: true, sentences: ["I am grandpa.", "It's grandpa.", "I like grandpa."] },
+                    { text: "Teacher", image: "https://cdn-icons-png.flaticon.com/512/4128/4128218.png", isPerson: true, sentences: ["I am a teacher.", "It's a teacher.", "I like my teacher."] },
+                    { text: "Doctor", image: "https://cdn-icons-png.flaticon.com/512/4128/4128221.png", isPerson: true, sentences: ["I am a doctor.", "It's a doctor.", "I like doctors."] },
+                    { text: "Friend", image: "https://cdn-icons-png.flaticon.com/512/4128/4128205.png", isPerson: true, sentences: ["I am your friend.", "It's my friend.", "I like friends."] },
+                    { text: "Boy", image: "https://cdn-icons-png.flaticon.com/512/4128/4128198.png", isPerson: true, sentences: ["I am a boy.", "It's a boy.", "I like boys."] },
+                    { text: "Girl", image: "https://cdn-icons-png.flaticon.com/512/4128/4128199.png", isPerson: true, sentences: ["I am a girl.", "It's a girl.", "I like girls."] }
+                ]
+            },
+            {
+                id: "others",
+                name: "そのた",
+                nameEn: "Other Things",
+                icon: "https://cdn-icons-png.flaticon.com/512/3082/3082383.png",
+                words: [
+                    { text: "Car", image: "https://cdn-icons-png.flaticon.com/512/3082/3082383.png", sentences: ["It's a car."] },
+                    { text: "Ball", image: "https://cdn-icons-png.flaticon.com/512/3082/3082386.png", sentences: ["It's a ball."] },
+                    { text: "Book", image: "https://cdn-icons-png.flaticon.com/512/3082/3082393.png", sentences: ["It's a book."] },
+                    { text: "House", image: "https://cdn-icons-png.flaticon.com/512/3082/3082409.png", sentences: ["It's a house."] },
+                    { text: "Tree", image: "https://cdn-icons-png.flaticon.com/512/3082/3082415.png", sentences: ["It's a tree."] },
+                    { text: "Flower", image: "https://cdn-icons-png.flaticon.com/512/3082/3082416.png", sentences: ["It's a flower."] },
+                    { text: "Bicycle", image: "https://cdn-icons-png.flaticon.com/512/3082/3082424.png", sentences: ["It's a bicycle."] },
+                    { text: "Clock", image: "https://cdn-icons-png.flaticon.com/512/3082/3082432.png", sentences: ["It's a clock."] },
+                    { text: "Chair", image: "https://cdn-icons-png.flaticon.com/512/3082/3082438.png", sentences: ["It's a chair."] },
+                    { text: "Bed", image: "https://cdn-icons-png.flaticon.com/512/3082/3082440.png", sentences: ["It's a bed."] }
+                ]
+            }
+        ];
 
         // 現在の単語と文章インデックス
         let currentWord = null;
         let currentSentenceIndex = 0;
+        let speechSpeed = 1.0;
 
         // 初期化 - カテゴリボタンを生成
         function initCategories() {
@@ -393,6 +402,7 @@
             category.words.forEach(word => {
                 const card = document.createElement('div');
                 card.className = 'word-card';
+                card.setAttribute('data-category', category.id); // 修正: カテゴリ属性追加
                 card.innerHTML = `
                     <img src="${word.image}" alt="${word.text}" class="word-image">
                     <div class="word-text">${word.text}</div>
@@ -419,11 +429,22 @@
             currentSentenceIndex = 0;
             
             document.getElementById('sentenceImage').src = word.image;
-            document.getElementById('sentenceText').textContent = word.sentences[0];
-            document.getElementById('sentenceScreen').style.display = 'flex';
             
-            // 音声再生（実際のアプリでは音声ファイルを用意）
+            // 修正: 改良版人物判定
+            const isPerson = word.hasOwnProperty('isPerson') ? word.isPerson : 
+                           ['Mom','Dad','Baby','Teacher','Doctor','Friend','Boy','Girl']
+                           .some(personWord => word.text.includes(personWord));
+            
+            if (!isPerson) {
+                document.getElementById('sentenceText').textContent = `It's ${word.text}.`;
+                speak(`It's ${word.text}.`);
+                return;
+            }
+            
+            document.getElementById('sentenceText').textContent = word.sentences[0];
             speak(word.sentences[0]);
+            
+            document.getElementById('sentenceScreen').style.display = 'flex';
         }
 
         // 次の文章を表示
@@ -439,7 +460,6 @@
             document.getElementById('sentenceText').textContent = 
                 currentWord.sentences[currentSentenceIndex];
             
-            // 音声再生
             speak(currentWord.sentences[currentSentenceIndex]);
         }
 
@@ -448,104 +468,44 @@
             document.getElementById('sentenceScreen').style.display = 'none';
         }
 
+        // 音声再生関数
+        function speak(text) {
+            try {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel(); // 修正: 既存の再生を停止
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'en-US';
+                    utterance.rate = localStorage.getItem('speechSpeed') || speechSpeed;
+                    window.speechSynthesis.speak(utterance);
+                }
+            } catch (e) {
+                console.error("音声再生エラー:", e);
+            }
+        }
 
-        // 音声再生関数（スロー再生対応）
-function speak(text) {
-    if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
-        utterance.rate = 0.8; // 再生速度を0.8倍に
-        window.speechSynthesis.speak(utterance);
-    }
-}
+        // 設定メニューの表示/非表示
+        document.getElementById('settingsBtn').addEventListener('click', function() {
+            const menu = document.getElementById('settingsMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        });
 
-// 文章表示ロジック改良版
-function showSentences(word) {
-    currentWord = word;
-    currentSentenceIndex = 0;
-    
-    // 人物か物かを自動判定（単語リストで明示的に指定しても可）
-    const isPerson = word.hasOwnProperty('isPerson') ? word.isPerson : 
-               ['Mom','Dad',...].some(...);
-
-    // 物の場合は最初からIt's ~のみ
-    if (!isPerson) {
-        document.getElementById('sentenceText').textContent = `It's ${word.text}.`;
-        speak(`It's ${word.text}.`);
-        return;
-    }
-    
-    // 人物の場合は従来通り3文章
-    document.getElementById('sentenceText').textContent = word.sentences[0];
-    speak(word.sentences[0]);
-}
+        // 速度変更関数
+        function setSpeed(speed) {
+            speechSpeed = speed;
+            localStorage.setItem('speechSpeed', speed);
+            alert(`音声速度を ${speed}x に設定しました`);
+        }
 
         // 初期化
-        window.onload = function() {
+        window.addEventListener('load', function() {
+            const savedSpeed = localStorage.getItem('speechSpeed');
+            if (savedSpeed) {
+                speechSpeed = parseFloat(savedSpeed);
+            }
+            
             initCategories();
-        };
-        
-        // 音声速度のデフォルト値
-let speechSpeed = 1.0;
-
-// 設定メニューの表示/非表示
-document.getElementById('settingsBtn').addEventListener('click', function() {
-    const menu = document.getElementById('settingsMenu');
-    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
-});
-
-// 速度変更関数
-function setSpeed(speed) {
-    speechSpeed = speed;
-    localStorage.setItem('speechSpeed', speed); // 設定を保存
-    alert(`音声速度を ${speed}x に設定しました`);
-}
-
-// 音声再生関数（改良版）
-function speak(text) {
-    if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
-        utterance.rate = localStorage.getItem('speechSpeed') || speechSpeed;
-        
-window.speechSynthesis.cancel(); // 既存の再生を停止
-window.speechSynthesis.speak(utterance);
-
-    }
-}
-
-// 重複削除後のspeak関数
-function speak(text) {
-    if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
-        utterance.rate = localStorage.getItem('speechSpeed') || speechSpeed;
-        window.speechSynthesis.speak(utterance);
-    }
-}
-
-// 改良版人物判定
-function showSentences(word) {
-    currentWord = word;
-    currentSentenceIndex = 0;
-    
-    const isPerson = word.hasOwnProperty('isPerson') ? word.isPerson : 
-                   ['Mom','Dad','Baby','Teacher','Doctor','Friend','Boy','Girl']
-                   .some(personWord => word.text.includes(personWord));
-    
-    // ...以下同じ...
-}
-
-
-// ページ読み込み時に設定を読み込み
-window.addEventListener('load', function() {
-    const savedSpeed = localStorage.getItem('speechSpeed');
-    if (savedSpeed) {
-        speechSpeed = parseFloat(savedSpeed);
-    }
-});
-        
+            document.getElementById('loading').style.display = 'none';
+        });
     </script>
 </body>
 </html>
